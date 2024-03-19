@@ -73,7 +73,10 @@ resource "aws_iam_policy" "pipeline_policy" {
           "codepipeline:StopPipelineExecution",
           "codepipeline:GetPipeline",
           "codepipeline:GetPipelineExecution",
-          "codepipeline:GetPipelineState"
+          "codepipeline:GetPipelineState",
+          "codebuild:StartBuild",
+          "codebuild:BatchGetBuilds",
+          "codebuild:BatchGetProjects"
         ],
         "Resource" : "*"
       },
