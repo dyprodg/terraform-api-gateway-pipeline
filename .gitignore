@@ -30,3 +30,4 @@ terraform.rc
 
 lambda_function_payloads/
 lambda/node_modules/
+lambda_function_payload.zip
