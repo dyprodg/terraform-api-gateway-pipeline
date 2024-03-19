@@ -1,0 +1,34 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing Terraform...
+      - curl -o terraform.zip https://releases.hashicorp.com/terraform/1.1.2/terraform_1.1.2_linux_amd64.zip
+      - unzip terraform.zip
+      - sudo mv terraform /usr/local/bin/
+      - terraform init
+
+  pre_build:
+    commands:
+      - echo Installing source NPM dependencies...
+      - cd lambda
+      - npm install
+      - npx prisma generate
+      - cd ..
+
+  build:
+    commands:
+      - echo Zipping the Lambda function code...
+      - zip -r lambda_function_payload.zip lambda
+
+  post_build:
+    commands:
+      - echo Applying Terraform configuration...
+      - terraform apply -auto-approve
+
+artifacts:
+  files:
+    - lambda_function_payload.zip

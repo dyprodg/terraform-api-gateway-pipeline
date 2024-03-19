@@ -6,11 +6,11 @@ cd lambda
 # Install Node.js dependencies
 npm install
 
-# Package the Lambda function
-zip -r function.zip .
-
 # Navigate back to the Terraform directory
 cd ..
+
+# Package the Lambda function
+zip -r lambda_function_payload.zip lambda/*
 
 # Format the Terraform code
 terraform fmt
