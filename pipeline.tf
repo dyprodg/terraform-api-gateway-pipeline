@@ -131,11 +131,12 @@ resource "aws_codebuild_project" "build" {
     type                        = var.codebuild_env_type
     image_pull_credentials_type = "CODEBUILD"
   }
+
   logs_config {
     cloudwatch_logs {
       group_name  = var.build_log_group_name  
       stream_name = var.build_log_stream_name
-  }
+    }
   }
 }
 
@@ -161,15 +162,25 @@ resource "aws_iam_role_policy" "codebuild" {
   policy = jsonencode({
     "Version"   : "2012-10-17",
     "Statement" : [{
-      "Effect"   : "Allow",
-      "Action"   : [
-        "codecommit:GitPull",
-        "s3:PutObject",
-        "s3:GetObject",
-        "s3:ListBucket",
-        "lambda:UpdateFunctionCode"
-      ],
-      "Resource" : "*"
+        "Effect"   : "Allow",
+        "Action"   : [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+        ],
+        "Resource" : "arn:aws:logs:*:*:*"
+    },
+    {
+        "Effect"   : "Allow",
+        "Action"   : [
+            "codecommit:GitPull",
+            "s3:PutObject",
+            "s3:GetObject",
+            "s3:ListBucket",
+            "lambda:UpdateFunctionCode"
+        ],
+        "Resource" : "*"
     }]
   })
 }
+
