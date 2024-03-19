@@ -16,3 +16,4 @@ aws dynamodb create-table \
     --region us-east-1
 
 echo "S3 bucket '${s3_bucket_name}' and DynamoDB table 'terraform-api-state' created successfully."
+echo "Please update the 'backend.tf' file with the correct values before running 'terraform init'."
