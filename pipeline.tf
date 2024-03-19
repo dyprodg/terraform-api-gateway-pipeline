@@ -45,24 +45,6 @@ resource "aws_codepipeline" "pipeline" {
     }
   }
 
-stage {
-   name = "Deploy"
-   
-   action {
-     name             = "Deploy"
-     category         = "Deploy"
-     owner            = "AWS"
-     provider         = "CodeDeploy"
-     version          = "1"
-     input_artifacts  = ["build_output"]
-
-     configuration = {
-       ApplicationName     = var.codedeploy_application_name
-       DeploymentGroupName = var.codedeploy_deployment_group_name
-     }
-   }
- }
-
 }
 
 resource "aws_iam_role" "pipeline" {
@@ -96,10 +78,7 @@ resource "aws_iam_policy" "pipeline_policy" {
           "codepipeline:GetPipelineState",
           "codebuild:StartBuild",
           "codebuild:BatchGetBuilds",
-          "codebuild:BatchGetProjects",
-          "codedeploy:CreateDeployment",
-            "codedeploy:GetApplication",
-            "codedeploy:GetDeployment"
+          "codebuild:BatchGetProjects"
         ],
         "Resource" : "*"
       },
@@ -202,6 +181,11 @@ resource "aws_iam_role_policy" "codebuild" {
           "s3:ListBucket"
         ],
         "Resource" : "*"
+      },
+      {
+            "Effect": "Allow",
+            "Action": "lambda:UpdateFunctionCode",
+            "Resource": "arn:aws:lambda:eu-central-1:283919506801:function:lambda_function_name"
       },
     ]
   })

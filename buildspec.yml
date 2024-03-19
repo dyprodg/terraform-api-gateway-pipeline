@@ -21,7 +21,5 @@ phases:
   post_build:
     commands:
       - echo Build completed
-
-artifacts:
-  files:
-    - lambda_function_payload.zip
+      - echo Deploying Lambda function...
+      - aws lambda update-function-code --function-name lambda_function_name --zip-file fileb://lambda_function_payload.zip
