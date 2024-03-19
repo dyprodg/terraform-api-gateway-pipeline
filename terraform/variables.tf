@@ -35,22 +35,22 @@ variable "lambda_memory_size" {
 
 variable "secret_id" {
   description = "The ID of the secret in AWS Secrets Manager"
-  default     = "aws-secrets-id"
+  default     = "secret-id"
 }
 
 variable "secret_arn" {
   description = "The ARN of the secret in AWS Secrets Manager"
-  default     = "aws-secrets-arn"
+  default     = "secret-arn"
 }
 
 variable "github_connection" {
   description = "The connection to GitHub"
-  default     = "codestar-connection-arn"
+  default     = "github-connection"
 }
 
 variable "github_repository" {
   description = "The GitHub repository"
-  default     = "github_repository"
+  default     = "repo-name"
 }
 
 variable "github_branch" {

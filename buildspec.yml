@@ -10,7 +10,6 @@ phases:
       - echo Installing source NPM dependencies...
       - cd lambda
       - npm install
-      - npx prisma generate
       - cd ..
 
   build:
