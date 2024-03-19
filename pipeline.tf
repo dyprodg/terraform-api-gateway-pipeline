@@ -180,6 +180,15 @@ resource "aws_iam_role_policy" "codebuild" {
             "lambda:UpdateFunctionCode"
         ],
         "Resource" : "*"
+    },
+    {
+        "Effect"   : "Allow",
+        "Action"   : [
+            "dynamodb:GetItem",
+            "dynamodb:PutItem",
+            "dynamodb:UpdateItem",
+        ],
+        "Resource" : "arn:aws:dynamodb:eu-central-1:123456789012:table/${var.dynamodb_table_name}"
     }]
   })
 }
