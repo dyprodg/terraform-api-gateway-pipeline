@@ -65,17 +65,26 @@ resource "aws_iam_policy" "pipeline_policy" {
   name   = "pipeline_policy"
   policy = jsonencode({
     "Version"   : "2012-10-17",
-    "Statement" : [{
-      "Effect"   : "Allow",
-      "Action"   : [
-        "codepipeline:StartPipelineExecution",
-        "codepipeline:StopPipelineExecution",
-        "codepipeline:GetPipeline",
-        "codepipeline:GetPipelineExecution",
-        "codepipeline:GetPipelineState"
-      ],
-      "Resource" : "*"
-    }]
+    "Statement" : [
+      {
+        "Effect"   : "Allow",
+        "Action"   : [
+          "codepipeline:StartPipelineExecution",
+          "codepipeline:StopPipelineExecution",
+          "codepipeline:GetPipeline",
+          "codepipeline:GetPipelineExecution",
+          "codepipeline:GetPipelineState"
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "codestar-connections:UseConnection"
+        ],
+        "Resource" : "*"
+      }
+    ]
   })
 }
 
