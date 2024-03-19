@@ -83,6 +83,15 @@ resource "aws_iam_policy" "pipeline_policy" {
           "codestar-connections:UseConnection"
         ],
         "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject"
+        ],
+        "Resource" : "arn:aws:s3:::${aws_s3_bucket.artifact_store.bucket}/*"
       }
     ]
   })
