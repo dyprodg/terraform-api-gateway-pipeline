@@ -161,35 +161,37 @@ resource "aws_iam_role_policy" "codebuild" {
 
   policy = jsonencode({
     "Version"   : "2012-10-17",
-    "Statement" : [{
+    "Statement" : [
+      {
         "Effect"   : "Allow",
         "Action"   : [
-            "logs:CreateLogGroup",
-            "logs:CreateLogStream",
-            "logs:PutLogEvents"
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
         ],
         "Resource" : "arn:aws:logs:*:*:*"
-    },
-    {
+      },
+      {
         "Effect"   : "Allow",
         "Action"   : [
-            "codecommit:GitPull",
-            "s3:PutObject",
-            "s3:GetObject",
-            "s3:ListBucket",
-            "lambda:UpdateFunctionCode"
+          "codecommit:GitPull",
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket",
+          "lambda:UpdateFunctionCode"
         ],
         "Resource" : "*"
-    },
-    {
+      },
+      {
         "Effect"   : "Allow",
         "Action"   : [
-            "dynamodb:GetItem",
-            "dynamodb:PutItem",
-            "dynamodb:UpdateItem",
+          "dynamodb:GetItem",
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem"
         ],
-        "Resource" : "arn:aws:dynamodb:eu-central-1:123456789012:table/${var.dynamodb_table_name}"
-    }]
+        "Resource" : "arn:aws:dynamodb:eu-central-1:283919506801:table/${var.dynamodb_table_name}"
+      }
+    ]
   })
 }
 
