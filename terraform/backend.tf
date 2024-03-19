@@ -5,10 +5,10 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket         = "my-terraform-state-bucket-dyprodg-12334"
+    bucket         = "state-bucket-name"
     key            = "terraform.tfstate"
     region         = "eu-central-1"
-    dynamodb_table = "terraform-api-state"
+    dynamodb_table = "state-table"
     encrypt        = true
   }
 }

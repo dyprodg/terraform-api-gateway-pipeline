@@ -32,7 +32,7 @@ VERY IMPORTANT!!!! DON'T FORGET THE GITHUB CONNECTION ARN AND AWS SECRETS ARN AN
 If you don't want to use secrets at any point, remove the secrets from the configuration.
 To do so, go into the lambda.tf and remove the lambda environment and the one statement of the policy
 
-4. Change the names (S3-Bucket and Tablename) to something unique in the setup.sh at the top
+4. Change the variables (S3-Bucket and Tablename) to something unique and choose your region in the setup.sh at the top
     This is important. S3 Bucket Names are globally unique, so be creative.
 
 5. Run the `setup.sh` script to set up the necessary dependencies.
@@ -45,13 +45,8 @@ To do so, go into the lambda.tf and remove the lambda environment and the one st
 ```bash
 chmod 700 setup.sh deploy.sh
 ```
-8. Run `terraform init` to initialize the Terraform configuration.
-```bash
-cd terraform
-terraform init
-```
 
-## Customizing the Code
+## Customizing the Code of your Lambda
 
 To customize the code to fit your needs, follow these steps:
 
@@ -70,4 +65,4 @@ If everything was successfull try the curl request with the provided Staging URL
 curl "STAGINGURL/verify?token=asdfasdf"
 ```
 
-If you want to make some changes to the code now, you only have to push your repo.
+If you want to make some changes to the code now, you only have to push your repo. The pipeline should do the rest.

@@ -1,6 +1,6 @@
 variable "region" {
   description = "The AWS region"
-  default     = "eu-central-1"
+  default     = "us-west-1"
 }
 
 variable "api_name" {
