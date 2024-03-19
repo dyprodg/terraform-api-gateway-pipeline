@@ -48,21 +48,40 @@ resource "aws_codepipeline" "pipeline" {
 resource "aws_iam_role" "pipeline" {
   name = "pipeline"
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "codepipeline.amazonaws.com"
+  assume_role_policy = jsonencode({
+    "Version"   : "2012-10-17",
+    "Statement" : [{
+      "Action"    : "sts:AssumeRole",
+      "Principal" : {
+        "Service" : "codepipeline.amazonaws.com"
       },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
+      "Effect"    : "Allow",
+      "Sid"       : ""
+    }]
+  })
 }
-EOF
+
+resource "aws_iam_policy" "pipeline_policy" {
+  name   = "pipeline_policy"
+  policy = jsonencode({
+    "Version"   : "2012-10-17",
+    "Statement" : [{
+      "Effect"   : "Allow",
+      "Action"   : [
+        "codepipeline:StartPipelineExecution",
+        "codepipeline:StopPipelineExecution",
+        "codepipeline:GetPipeline",
+        "codepipeline:GetPipelineExecution",
+        "codepipeline:GetPipelineState"
+      ],
+      "Resource" : "*"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "pipeline_policy_attachment" {
+  policy_arn = aws_iam_policy.pipeline_policy.arn
+  role       = aws_iam_role.pipeline.name
 }
 
 resource "aws_s3_bucket" "artifact_store" {
@@ -74,13 +93,16 @@ resource "aws_codebuild_project" "build" {
   description   = "My CodeBuild project"
   service_role  = aws_iam_role.codebuild.arn
   build_timeout = 5
+
   source {
     type      = "CODEPIPELINE"
     buildspec = "buildspec.yml"
   }
+
   artifacts {
     type = "CODEPIPELINE"
   }
+
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
     image                       = "aws/codebuild/standard:7.0"
@@ -92,42 +114,34 @@ resource "aws_codebuild_project" "build" {
 resource "aws_iam_role" "codebuild" {
   name = "codebuild"
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "codebuild.amazonaws.com"
+  assume_role_policy = jsonencode({
+    "Version"   : "2012-10-17",
+    "Statement" : [{
+      "Action"    : "sts:AssumeRole",
+      "Principal" : {
+        "Service" : "codebuild.amazonaws.com"
       },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
+      "Effect"    : "Allow",
+      "Sid"       : ""
+    }]
+  })
 }
 
 resource "aws_iam_role_policy" "codebuild" {
   role = aws_iam_role.codebuild.id
 
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
+  policy = jsonencode({
+    "Version"   : "2012-10-17",
+    "Statement" : [{
+      "Effect"   : "Allow",
+      "Action"   : [
         "codecommit:GitPull",
         "s3:PutObject",
         "s3:GetObject",
         "s3:ListBucket",
         "lambda:UpdateFunctionCode"
       ],
-      "Resource": "*"
-    }
-  ]
-}
-EOF
+      "Resource" : "*"
+    }]
+  })
 }
