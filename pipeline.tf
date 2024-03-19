@@ -125,10 +125,16 @@ resource "aws_codebuild_project" "build" {
   }
 
   environment {
-    compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "aws/codebuild/standard:7.0"
-    type                        = "LINUX_CONTAINER"
+    compute_type                = var.codebuild_compute_type
+    image                       = var.codebuild_image
+    type                        = var.codebuild_env_type
     image_pull_credentials_type = "CODEBUILD"
+  }
+  logs_config {
+    cloudwatch_logs {
+      group_name  = var.build_log_group_name  
+      stream_name = var.build_log_stream_name
+  }
   }
 }
 
