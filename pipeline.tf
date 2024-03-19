@@ -1,6 +1,7 @@
 resource "aws_codepipeline" "pipeline" {
   name     = "my-pipeline"
   role_arn = aws_iam_role.pipeline.arn
+  pipeline_type = "V2"
 
   artifact_store {
     location = aws_s3_bucket.artifact_store.bucket
