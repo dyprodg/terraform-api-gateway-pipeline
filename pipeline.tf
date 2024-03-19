@@ -44,6 +44,25 @@ resource "aws_codepipeline" "pipeline" {
       }
     }
   }
+
+stage {
+   name = "Deploy"
+   
+   action {
+     name             = "Deploy"
+     category         = "Deploy"
+     owner            = "AWS"
+     provider         = "CodeDeploy"
+     version          = "1"
+     input_artifacts  = ["build_output"]
+
+     configuration = {
+       ApplicationName     = var.codedeploy_application_name
+       DeploymentGroupName = var.codedeploy_deployment_group_name
+     }
+   }
+ }
+
 }
 
 resource "aws_iam_role" "pipeline" {
@@ -77,7 +96,10 @@ resource "aws_iam_policy" "pipeline_policy" {
           "codepipeline:GetPipelineState",
           "codebuild:StartBuild",
           "codebuild:BatchGetBuilds",
-          "codebuild:BatchGetProjects"
+          "codebuild:BatchGetProjects",
+          "codedeploy:CreateDeployment",
+            "codedeploy:GetApplication",
+            "codedeploy:GetDeployment"
         ],
         "Resource" : "*"
       },
@@ -177,20 +199,10 @@ resource "aws_iam_role_policy" "codebuild" {
           "codecommit:GitPull",
           "s3:PutObject",
           "s3:GetObject",
-          "s3:ListBucket",
-          "lambda:UpdateFunctionCode"
+          "s3:ListBucket"
         ],
         "Resource" : "*"
       },
-      {
-        "Effect"   : "Allow",
-        "Action"   : [
-          "dynamodb:GetItem",
-          "dynamodb:PutItem",
-          "dynamodb:UpdateItem"
-        ],
-        "Resource" : "arn:aws:dynamodb:eu-central-1:283919506801:table/${var.dynamodb_table_name}"
-      }
     ]
   })
 }

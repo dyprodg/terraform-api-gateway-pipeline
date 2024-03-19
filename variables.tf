@@ -116,3 +116,13 @@ variable "build_log_stream_name" {
   description = "The name of the CloudWatch Logs stream"
   default     = "eagler-api-build-stream"
 }
+
+variable "codedeploy_application_name" {
+  description = "The name of the CodeDeploy application"
+  default     = "eagler-api"
+}
+
+variable "codedeploy_deployment_group_name" {
+  description = "The name of the CodeDeploy deployment group"
+  default     = "eagler-api-deployment-group"
+}

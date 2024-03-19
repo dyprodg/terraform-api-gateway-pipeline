@@ -58,19 +58,22 @@ resource "aws_iam_role_policy" "policy" {
 }
 
 resource "aws_lambda_function" "lambda" {
-  filename         = var.lambda_function_filename
   function_name    = var.lambda_function_name
   role             = aws_iam_role.iam_for_lambda.arn
   handler          = var.lambda_handler
-  source_code_hash = filebase64sha256(var.lambda_function_filename)
   runtime          = var.lambda_runtime
   architectures    = var.lambda_architecture
   memory_size      = var.lambda_memory_size
+  filename         = "dummy.zip"
 
   environment {
     variables = {
       SECRET_ID = var.secret_id
     }
+  }
+
+  lifecycle {
+    ignore_changes = [filename]
   }
 }
 

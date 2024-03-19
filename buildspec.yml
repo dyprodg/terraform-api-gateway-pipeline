@@ -4,12 +4,6 @@ phases:
   install:
     runtime-versions:
       nodejs: 18
-    commands:
-      - echo Installing Terraform...
-      - curl -o terraform.zip https://releases.hashicorp.com/terraform/1.1.2/terraform_1.1.2_linux_amd64.zip
-      - unzip terraform.zip
-      - sudo mv terraform /usr/local/bin/
-      - terraform init
 
   pre_build:
     commands:
@@ -26,8 +20,7 @@ phases:
 
   post_build:
     commands:
-      - echo Applying Terraform configuration...
-      - terraform apply -auto-approve
+      - echo Build completed
 
 artifacts:
   files:

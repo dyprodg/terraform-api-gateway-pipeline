@@ -1,0 +1,7 @@
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::Lambda::Function
+      Properties:
+        Name: lambda_function_name
+        CurrentVersion: CURRENT_VERSION_PLACEHOLDER
